@@ -13,7 +13,6 @@
 3. [Part III: Configuring Jenkins and managing Docker plugins](#part-iii-configuring-jenkins)
 4. [Part IV Test Docker Slaves Using FreeStyle Job](#part-iv-creating-a-jenkins-slave-docker-image)
 
-Jenkins is a Continuous Integration automation control software that allows you to automate repetitive parts of the software development process
 ---
 ## Part I Installing Java8 and Jenkins
 

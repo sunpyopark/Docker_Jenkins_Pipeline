@@ -14,14 +14,14 @@ RUN npm install
 COPY . .
 
 # Second stage of our build for production
-FROM node:alpine
+#FROM node:alpine
 
 # copy only essential things to this layer
 # this line will compress the size and provides full functionality
-COPY --from=app /usr/src/app /usr/src/app
+#COPY --from=app /usr/src/app /usr/src/app
 
 # Define the work directory in the second stage
-WORKDIR /usr/src/app
+#WORKDIR /usr/src/app
 
 # Expose the port
 EXPOSE 3000

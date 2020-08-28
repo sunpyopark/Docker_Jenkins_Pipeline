@@ -1,7 +1,7 @@
 # Automating Docker container deployment with Jenkins :whale: 
 
 ## TL;DR
-**WHAT**: Use Docker Plugin to connect Jenkins to Docker and run entire pipelines inside containers
+**WHAT**: Use Docker Plugins to connect Jenkins to Docker and automate entire containerisation process 
 
 **HOW**: Install Jenkins, create a Docker host with AWS EC2 Instances, set up Docker Remote API , create Docker agent cloud, slave build agent images, installing and configuring Docker plugins
 

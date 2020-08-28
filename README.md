@@ -17,7 +17,7 @@
 
 ~~5. [Part V Test Docker Slaves Using FreeStyle Job](#part-iv-creating-a-jenkins-slave-docker-image)~~
 
-4. [Part IV: Setting a CI job]
+[Setting a CI job](#setting-up-ci-build-on-jenkins)
 
 
 

@@ -3,8 +3,9 @@
 ## TL;DR
 **WHAT**: Use Docker Plugin to connect Jenkins to Docker and run entire pipelines inside containers
 
-**HOW**: Install Jenkins, create a Docker host to access containers through an API, slave build agent images, installing and configuring Docker plugins
+**HOW**: Install Jenkins, create a Docker host with AWS EC2 Instances, set up Docker Remote API , create Docker agent cloud, slave build agent images, installing and configuring Docker plugins
 
+> [What is Docker Slave?](dockerslave.md)
 ---
 
 **Contents**
@@ -12,6 +13,9 @@
 2. [Part II: Setting up a server on AWS EC2 to Install Docker](#part-ii-enable-docker-remote-api-on-docker-host)
 3. [Part III: Configuring Jenkins and managing Docker plugins](#part-iii-configuring-jenkins)
 4. [Part IV Test Docker Slaves Using FreeStyle Job](#part-iv-creating-a-jenkins-slave-docker-image)
+5. []
+
+
 
 ---
 ## Part I Installing Java8 and Jenkins
@@ -93,10 +97,11 @@ http://localhost:8080/
 ```
 
 ---
-# Part II Enable docker remote API on docker host
+## Part II Enable docker remote API on docker host
 1. Set up Jenkins server on AWS and SSH into the AWS server 
 2. Follow tutorial to install Docker on a AWS EC2 Linux Server
 https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
+https://hackernoon.com/running-docker-on-aws-ec2-83a14b780c56
 3. Enable Docker Remote API
 https://scriptcrunch.com/enable-docker-remote-api/
 To test using a REST client
@@ -107,7 +112,7 @@ curl http://localhost:4243/version
 http://AWS_JENKINS_SERVER_PUBLIC_IP:4243/images/json
 ```
 ---
-# Part IV Creating a Jenkins Slave Docker Image
+## Part II Creating a Jenkins Slave Docker Image
 1. In our Ubuntu Instance, make sure you are running with `root` privileges (sudo) type in the following command:
 
 ```bash
@@ -146,10 +151,13 @@ http://localhost:4243/images/json
 4. Click Docker
 5. In Docker Host URI, enter the public IP address of the Docker Host on port `4243`
 ![Configure Clouds Docker Details](images/configure_clouds_docker_cloud_details.png)
-![Docker Agent Templates](images/docker_agent_templates.png)
 
 **Note**: if a 403 error is returned, go to Manage Jenkins > Security > Configure Global Security > **CSRF Protection** > Enable Proxy Compatibility
 ![CSRF_protection_jenkins_api_crumb_issuer](images/jenkins_global_security.png)
+
+6. Click Add Docker Agent Templates, navigate to Connect method > Connect with SSH > Use configured SSH credentials > Add Jenkins > Default pwd and username is `Jenkins` > Set ID as docker-ssh > Click Add > Select SSH Jenkins Credentials from drop down > Host Key Verification Strategy   
+![Docker Agent Templates](images/docker_agent_templates.png)
+
 
 ---
 

@@ -12,7 +12,8 @@
 1. [Part I: Installing Java8 and Jenkins](#part-i-installing-java8-and-jenkins)
 2. [Part II: Setting up a server on AWS EC2 to Install Docker](#part-ii-enable-docker-remote-api-on-docker-host)
 3. [Part III: Configuring Jenkins and managing Docker plugins](#part-iii-configuring-jenkins)
-4. [Part IV Test Docker Slaves Using FreeStyle Job](#part-iv-creating-a-jenkins-slave-docker-image)
+4. [Part IV: Creative slave node in Jenkins]
+5. [Part V Test Docker Slaves Using FreeStyle Job](#part-iv-creating-a-jenkins-slave-docker-image)
 5. []
 
 
@@ -146,6 +147,9 @@ http://localhost:4243/images/json
 
 ## Part III Configuring Jenkins
 1. Navigate to Manage Jenkins > Manage Plugins > Available > Install **all** Docker plugins, `docker-build-step`, `Docker Compose Build Step`, `Docker build plugins` 
+
+**Tip:** Install `Blue Ocean` plugin for better UI 
+
 2. Once plugins have been installed, navigate to Manage Jenkins > Manage Nodes and Clouds
 3. Click on Configure Clouds > Add a new Cloud :cloud:
 4. Click Docker
@@ -160,6 +164,9 @@ http://localhost:4243/images/json
 
 
 ---
+## Setting up slave node in Jenkins 
 
-## Part IV Test Docker Slaves Using FreeStyle Job
+
+---
+## Part V Test Docker Slaves Using FreeStyle Job
 1. Now that you have slave configurations ready, create a freestyle job on jenkins

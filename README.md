@@ -178,6 +178,14 @@ http://localhost:4243/images/json
 - Create a freestyle job on Jenkins and call it `Docker_Pipeline_Integration_Test`
 - Make sure `nodejs` plugin is installed
 - To activate `nodejs` plugin, go to `Manage Jenkins` > `System Configuration` > `Global Tool Configuration` > `NodeJS` > `Add NodeJS` > Give it a name e.g. `Node` > Save and Apply
+- Create webhook 
+- Execute shell
+```bash
+cd app
+npm install 
+npm test
+```
+- Click Apply 
 
 ---
 

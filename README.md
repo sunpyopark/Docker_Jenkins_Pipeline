@@ -12,8 +12,11 @@
 1. [Part I: Installing Java8 and Jenkins](#part-i-installing-java8-and-jenkins)
 2. [Part II: Setting up a server on AWS EC2 to Install Docker](#part-ii-enable-docker-remote-api-on-docker-host)
 3. [Part III: Configuring Jenkins and managing Docker plugins](#part-iii-configuring-jenkins)
+
 ~~4. [Part IV: Creative slave node in Jenkins]~~
+
 ~~5. [Part V Test Docker Slaves Using FreeStyle Job](#part-iv-creating-a-jenkins-slave-docker-image)~~
+
 4. [Part IV: Setting a CI job]
 
 
@@ -114,7 +117,7 @@ curl http://localhost:4243/version
 http://AWS_JENKINS_SERVER_PUBLIC_IP:4243/images/json
 ```
 ---
-## Part II Creating a Jenkins Slave Docker Image
+~~## Part II Creating a Jenkins Slave Docker Image~~
 1. In our Ubuntu Instance, make sure you are running with `root` privileges (sudo) type in the following command:
 
 ```bash
@@ -145,6 +148,8 @@ http://localhost:4243/images/json
 "VirtualSize":632232399
 }]
 ```
+
+---
 
 ## Part III Configuring Jenkins
 1. Navigate to Manage Jenkins > Manage Plugins > Available > Install **all** Docker plugins, `docker-build-step`, `Docker Compose Build Step`, `Docker build plugins` 
@@ -178,7 +183,6 @@ http://localhost:4243/images/json
 - Create a freestyle job on Jenkins and call it `Docker_Pipeline_Integration_Test`
 - Make sure `nodejs` plugin is installed
 - To activate `nodejs` plugin, go to `Manage Jenkins` > `System Configuration` > `Global Tool Configuration` > `NodeJS` > `Add NodeJS` > Give it a name e.g. `Node` > Save and Apply
-- Create webhook 
 - Execute shell
 ```bash
 cd app
@@ -189,5 +193,44 @@ npm test
 
 ---
 
-## Setting up CD build on Jenkins with Dockerfile
-
+## Setting up CD build on Jenkins with Dockerfile 
+- First go to [Dockerhub](https://hub.docker.com/r/naistangz), create an account if this has not been created yet, then set up a DockerHub repository and call it `<username>/<name_of_repository>` e.g `naistangz/Docker_automation`
+- Create a pipeline script on Jenkins
+```json
+pipeline {
+  environment {
+    registry = "naistangz/Docker_automation"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
+  agent any
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git 'https://github.com/naistangz/Docker_Jenkins_Pipeline'
+      }
+    }
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+         script {
+            docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry:$BUILD_NUMBER"
+      }
+    }
+  }
+}
+```

@@ -10,7 +10,7 @@
 
 **Contents**
 1. [Part I: Installing Java8 and Jenkins](#part-i-installing-java8-and-jenkins)
-2. [Part II: Setting up a server on AWS EC2 to Install Docker](#part-ii-enable-docker-remote-api-on-docker-host)
+~~2. [Part II: Setting up a server on AWS EC2 to Install Docker](#part-ii-enable-docker-remote-api-on-docker-host)~~
 3. [Part III: Configuring Jenkins and managing Docker plugins](#part-iii-configuring-jenkins)
 
 ~~4. [Part IV: Creative slave node in Jenkins]~~

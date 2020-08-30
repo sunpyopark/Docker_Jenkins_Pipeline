@@ -48,7 +48,7 @@ Check all installed java version
 ```bash
 /usr/libexec/java_home -V
 ```
-**which returns**
+**which should return**
 ```bash
 Matching Java Virtual Machines (2):
     14.0.1, x86_64:	"Java SE 14.0.1"	/Library/Java/JavaVirtualMachines/jdk-14.0.1.jdk/Contents/Home

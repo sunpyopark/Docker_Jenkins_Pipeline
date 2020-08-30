@@ -170,17 +170,17 @@ Once our CI build is successful, create another build on Jenkins which will list
 3. Once logged in, click on `Create` -> `Create Repository` -> Type in a name for your Docker repository e.g `naistangz/docker_automation`
 4. After the Docker repository has been created, go back to Jenkins and navigate to `Credentials` -> `System` -> `Global Credentials` -> `Add Credentials`
 5. Enter your Dockerhub credentials e.g
-**Kind** -> `Username with password`
-**Scope** -> Global(Jenkins, nodes, items, all child items, etc)
-**Username** -> Dockerhub Username
-**Password** -> Dockerhub Password
-**ID** -> dockerhub
-**Description** -> Dockerhub Credentials
+    - **Kind** -> `Username with password`
+    - **Scope** -> Global(Jenkins, nodes, items, all child items, etc)
+    - **Username** -> Dockerhub Username
+    - **Password** -> Dockerhub Password
+    - **ID** -> dockerhub
+    - **Description** -> Dockerhub Credentials
 
 6. Go back to Jenkins home page and click `New Item`, select `Pipeline` and name it `docker-deployment-test-v1` and provide it with the following configurations:
-**General** -> Github project -> Insert Project URL
-**Build Triggers** -> Select `Build after other projects are built` -> Projects to Watch (select the CI build created in [Part III](#part-iii-setting-up-ci-build-on-jenkins)): `Docker_Pipeline_Integration_Test` -> Trigger only if build is stable
-**Pipeline** -> Add the following script (scripts are based on the Groovy programming language):
+    - **General** -> Github project -> Insert Project URL
+    - **Build Triggers** -> Select `Build after other projects are built` -> Projects to Watch (select the CI build created in [Part III](#part-iii-setting-up-ci-build-on-jenkins)): `Docker_Pipeline_Integration_Test` -> Trigger only if build is stable
+    - **Pipeline** -> Add the following script (scripts are based on the Groovy programming language):
 ```bash
 pipeline {
   environment {

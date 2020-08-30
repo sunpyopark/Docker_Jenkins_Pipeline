@@ -12,7 +12,7 @@
 2. [Part II: Configuring Jenkins and managing Docker plugins](#part-iii-configuring-jenkins)
 3. [Part III: Setting a CI job](#setting-up-ci-build-on-jenkins)
 4. [Part IV: Setting up a CD job and automatically creating a Docker image](#part-iv-setting-up-cd-build-on-jenkins-with-dockerfile)
-
+5. [Setting up Docker Agent]
 ---
 ## Part I: Installing Java8 and Jenkins
 

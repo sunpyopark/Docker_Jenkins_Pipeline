@@ -177,11 +177,14 @@ Once our CI build is successful, create another build on Jenkins which will list
 **ID** -> dockerhub
 **Description** -> Dockerhub Credentials
 
-6. 
-```json
+6. Go back to Jenkins home page and click `New Item`, select `Pipeline` and name it `docker-deployment-test-v1` and provide it with the following configurations:
+**General** -> Github project -> Insert Project URL
+**Build Triggers** -> Select `Build after other projects are built` -> Projects to Watch: `Docker_Pipeline_Integration_Test` -> Trigger only if build is stable
+**Pipeline** -> Add the following script (scripts are based on the Groovy programming language):
+```bash
 pipeline {
   environment {
-    registry = "naistangz/Docker_automation"
+    registry = "naistangz/docker_automation"
     registryCredential = 'dockerhub'
     dockerImage = ''
   }
@@ -216,3 +219,69 @@ pipeline {
   }
 }
 ```
+---
+**Pipeline explanation**:
+In this pipeline, we have 2 environment variables to change the registry and credentials:
+```bash
+environment {
+    registry = "naistangz/docker_automation"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
+```
+Jenkins will clone a git repository that has a Dockerfile inside
+```bash
+stage('Cloning Git') {
+      steps {
+        git 'https://github.com/naistangz/Docker_Jenkins_Pipeline'
+      }
+    }
+```
+In the `Docker_Jenkins_Pipeline` repository on `Github`, the Dockerfile contains the following configurations:
+```yaml
+# Selecting the base image to build our own customised node.js application microservice
+FROM node 
+
+# Working directory inside the container
+WORKDIR /usr/src/app
+
+# Copying dependencies
+COPY package*.json ./
+
+# Installing node package manager
+RUN npm install
+
+# Copying everything from current location to default location inside the container
+COPY . .
+
+# Expose the port
+EXPOSE 3000
+
+# Starting the app with CMD - 
+CMD ["node", "app.js"]
+```
+The following stage will build the image based on the Dockerfile detected in Git repository 
+```bash
+stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+```
+Finally, once the Docker image has been created, it will be pushed to Dockerhub
+```bash
+stage('Deploy Image') {
+      steps{
+         script {
+            docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+```
+---
+
+7. Click on `Save` and `Apply`

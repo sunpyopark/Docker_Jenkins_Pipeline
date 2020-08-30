@@ -134,13 +134,6 @@ Yet Another Docker Plugin
 ---
 > To set up Github Webhooks, Jenkins, and Ngrok for Local Development click [here](https://medium.com/@developerwakeling/setting-up-github-webhooks-jenkins-and-ngrok-for-local-development-f4b2c1ab5b6)
 ---
-2. On Github, navigate to your [repository](https://github.com/naistangz/Docker_Jenkins_Pipeline/tree/development) -> Go to `Settings` -> `Webhooks` -> in Payload URL, enter Jenkins URL e.g:
-```bash
-http://naistangz-1234.socketxp.com/github-webhook/
-```
--> Enable `SSL verification` -> `Update webhook` -> `Redeliver`
-
----
 **Commands to forward local port to public IP with** `SocketXP`:
 ```bash
 sudo su
@@ -151,6 +144,12 @@ Connected.
 Public URL -> https://naistangz-z012h3op.socketxp.com
 ```
 ---
+2. On Github, navigate to your [repository](https://github.com/naistangz/Docker_Jenkins_Pipeline/tree/development) -> Go to `Settings` -> `Webhooks` -> in Payload URL, enter Jenkins URL e.g:
+```bash
+http://naistangz-1234.socketxp.com/github-webhook/
+```
+-> Enable `SSL verification` -> `Update webhook` -> `Redeliver`
+
 3. Go back to Jenkins and make sure `nodejs` plugin is installed
 4. To activate `nodejs` plugin, go to `Manage Jenkins` > `System Configuration` > `Global Tool Configuration` > `NodeJS` > `Add NodeJS` > Give it a name e.g. `Node` > Save and Apply
 5. Execute shell

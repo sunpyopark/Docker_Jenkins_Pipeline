@@ -164,8 +164,20 @@ npm test
 ---
 
 ## Part IV: Setting up CD build on Jenkins with Dockerfile 
-- First go to [Dockerhub](https://hub.docker.com/r/naistangz), create an account if this has not been created yet, then set up a DockerHub repository and call it `<username>/<name_of_repository>` e.g `naistangz/docker_automation`
-- Create a pipeline script on Jenkins
+Once our CI build is successful, create another build on Jenkins which will listen to the CI build which we named `Docker_Pipeline_Integration_Test` and automatically build a Docker image if it successfully passed the tests and merged the code to the master branch. 
+1. Make sure `docker pipeline plugin` is installed
+2. Create a [Dockerhub](https://hub.docker.com/) account
+3. Once logged in, click on `Create` -> `Create Repository` -> Type in a name for your Docker repository e.g `naistangz/docker_automation`
+4. After the Docker repository has been created, go back to Jenkins and navigate to `Credentials` -> `System` -> `Global Credentials` -> `Add Credentials`
+5. Enter your Dockerhub credentials e.g
+**Kind** -> `Username with password`
+**Scope** -> Global(Jenkins, nodes, items, all child items, etc)
+**Username** -> Dockerhub Username
+**Password** -> Dockerhub Password
+**ID** -> dockerhub
+**Description** -> Dockerhub Credentials
+
+6. 
 ```json
 pipeline {
   environment {

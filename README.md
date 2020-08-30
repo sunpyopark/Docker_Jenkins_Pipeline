@@ -13,7 +13,7 @@
 3. [Part III: Setting a CI job](#setting-up-ci-build-on-jenkins)
 4. [Part IV: Setting up a CD job and automatically creating a Docker image](#part-iv-setting-up-cd-build-on-jenkins-with-dockerfile)
 ---
-## Part I: Installing Java8 and Jenkins
+## Part I: Installing Java8 :coffee: and Jenkins :woman_cook:
 
 > Full installation instructions [here](https://www.macminivault.com/installing-jenkins-on-macos/)
 
@@ -97,7 +97,7 @@ brew services list
 ```
 
 ---
-## Part II: Configuring Jenkins
+## Part II: Configuring Jenkins :woman_cook:
 1. Navigate to Manage Jenkins > Manage Plugins > Available > Install **all** Docker plugins, `docker-build-step`, `Docker Compose Build Step`, `Docker build plugins` and `Github`
 
 **List of plugins used:**
@@ -117,7 +117,7 @@ Timestamper
 
 ---
 
-## Part III: Setting up CI build on Jenkins 
+## Part III: Setting up CI build on Jenkins :woman_cook:
 1. Create a freestyle job on Jenkins and call it `Docker_Pipeline_Integration_Test` with the following configurations:
     - **General** -> `Discard Old Builds` -> `Max # of builds to keep` -> 3
     - **Github Project URL** -> Insert URL for Github Repository
@@ -159,7 +159,7 @@ npm test
 7. Go to console output to check if the build was successful (indicated by the blue circle :large_blue_circle:)
 
 ---
-## Part IV: Setting up CD build on Jenkins with Dockerfile 
+## Part IV: Setting up CD build on Jenkins with Dockerfile 	:whale:
 Once our CI build is successful, create another build on Jenkins which will listen to the CI build which we named `Docker_Pipeline_Integration_Test` and automatically build a Docker image if it successfully passed the tests and merges the code to the master branch. 
 1. Make sure `docker pipeline plugin` is installed
 2. Create a [Dockerhub](https://hub.docker.com/) account
@@ -293,5 +293,5 @@ stage('Remove Unused docker image') {
 8. To test if the build was successful, make a change on the development branch
 ---
 
-Current error:
+Current error :upside_down_face:
 ![ine 1: docker: command not found](images/docker-not-found-error.png)

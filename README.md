@@ -146,7 +146,7 @@ Public URL -> https://naistangz-z012h3op.socketxp.com
 ---
 2. On Github, navigate to your [repository](https://github.com/naistangz/Docker_Jenkins_Pipeline/tree/development) -> Go to `Settings` -> `Webhooks` -> in Payload URL, enter Jenkins URL e.g:
 ```bash
-http://naistangz-1234.socketxp.com/github-webhook/
+http://naistangz-z012h3op.socketxp.com/github-webhook/
 ```
 -> Enable `SSL verification` -> `Update webhook` -> `Redeliver`
 

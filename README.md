@@ -192,7 +192,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git 'https://github.com/naistangz/Docker_Jenkins_Pipeline'
+        git 'git@github.com:naistangz/Docker_Jenkins_Pipeline.git'
       }
     }
     stage('Building image') {
@@ -233,7 +233,7 @@ Jenkins will clone a git repository that has a Dockerfile inside
 ```bash
 stage('Cloning Git') {
       steps {
-        git 'https://github.com/naistangz/Docker_Jenkins_Pipeline'
+        git 'git@github.com:naistangz/Docker_Jenkins_Pipeline.git'
       }
     }
 ```

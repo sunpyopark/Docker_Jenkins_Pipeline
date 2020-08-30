@@ -10,14 +10,8 @@
 
 **Contents**
 1. [Part I: Installing Java8 and Jenkins](#part-i-installing-java8-and-jenkins)
-~~2. [Part II: Setting up a server on AWS EC2 to Install Docker](#part-ii-enable-docker-remote-api-on-docker-host)~~
-3. [Part III: Configuring Jenkins and managing Docker plugins](#part-iii-configuring-jenkins)
-
-~~4. [Part IV: Creative slave node in Jenkins]~~
-
-~~5. [Part V Test Docker Slaves Using FreeStyle Job](#part-iv-creating-a-jenkins-slave-docker-image)~~
-
-[Setting a CI job](#setting-up-ci-build-on-jenkins)
+2. [Part II: Configuring Jenkins and managing Docker plugins](#part-iii-configuring-jenkins)
+3. [Part III: Setting a CI job](#setting-up-ci-build-on-jenkins)
 
 
 
@@ -101,100 +95,77 @@ brew services restart jenkins-lts
 http://localhost:8080/
 ```
 
----
-## Part II Enable docker remote API on docker host
-1. Set up Jenkins server on AWS and SSH into the AWS server 
-2. Follow tutorial to install Docker on a AWS EC2 Linux Server
-https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
-https://hackernoon.com/running-docker-on-aws-ec2-83a14b780c56
-3. Enable Docker Remote API
-https://scriptcrunch.com/enable-docker-remote-api/
-To test using a REST client
+9. To check whether jenkins is running:
 ```bash
-curl http://localhost:4243/version
-```
-```bash
-http://AWS_JENKINS_SERVER_PUBLIC_IP:4243/images/json
-```
----
-~~## Part II Creating a Jenkins Slave Docker Image~~
-1. In our Ubuntu Instance, make sure you are running with `root` privileges (sudo) type in the following command:
-
-```bash
-sudo su
-```
-**Then**
-```bash
-docker pull bibinwilson/jenkins-slave
-```
-2. Refresh page on browser to check that the image has been created successfully
-```bash
-http://AWS_JENKINS_SERVER_PUBLIC_IP:4243/images/json
-http://34.242.138.226:4243/images/json
-http://localhost:4243/images/json
-```
-
-```json
-[{
-"Containers":-1,
-"Created":1585916206,
-"Id":"sha256:d935e085182c40d82f58e7af1b9369822f29138592d5d0decab32f0bff00c94a",
-"Labels":{"maintainer":"Bibin Wilson <bibinwilsonn@gmail.com>"},
-"ParentId":"",
-"RepoDigests":["bibinwilson/jenkins-slave@sha256:2360b4a2bced494fd8affa94c174057208d540783aeba4261cce74a6ea376342"],
-"RepoTags":["bibinwilson/jenkins-slave:latest"],
-"SharedSize":-1,
-"Size":632232399,
-"VirtualSize":632232399
-}]
+brew services list
 ```
 
 ---
+## Part II Configuring Jenkins
+1. Navigate to Manage Jenkins > Manage Plugins > Available > Install **all** Docker plugins, `docker-build-step`, `Docker Compose Build Step`, `Docker build plugins` and `Github`
 
-## Part III Configuring Jenkins
-1. Navigate to Manage Jenkins > Manage Plugins > Available > Install **all** Docker plugins, `docker-build-step`, `Docker Compose Build Step`, `Docker build plugins` 
+**List of plugins used:**
+```bash
+Blue Ocean
+Credentials Plugin
+Docker Plugin
+Email Extension
+Github Plugin
+NodeJS Plugin
+Oracle Java SE Development Kit Installer Plugin
+Pipeline Plugin
+Timestamper
+Yet Another Docker Plugin
+```
 
 **Tip:** Install `Blue Ocean` plugin for better UI 
-
-2. Once plugins have been installed, navigate to Manage Jenkins > Manage Nodes and Clouds
-3. Click on Configure Clouds > Add a new Cloud :cloud:
-4. Click Docker
-5. In Docker Host URI, enter the public IP address of the Docker Host on port `4243`
-![Configure Clouds Docker Details](images/configure_clouds_docker_cloud_details.png)
-
-**Note**: if a 403 error is returned, go to Manage Jenkins > Security > Configure Global Security > **CSRF Protection** > Enable Proxy Compatibility
-![CSRF_protection_jenkins_api_crumb_issuer](images/jenkins_global_security.png)
-
-6. Click Add Docker Agent Templates, navigate to Connect method > Connect with SSH > Use configured SSH credentials > Add Jenkins > Default pwd and username is `Jenkins` > Set ID as docker-ssh > Click Add > Select SSH Jenkins Credentials from drop down > Host Key Verification Strategy   
-![Docker Agent Templates](images/docker_agent_templates.png)
-
-
----
-~~## Setting up slave node in Jenkins~~ 
-
-
----
-~~## Part V Test Docker Slaves Using FreeStyle Job~~
-1. Now that you have slave configurations ready, create a freestyle job on jenkins
-
 ---
 
-## Setting up CI build on Jenkins 
-- Create a freestyle job on Jenkins and call it `Docker_Pipeline_Integration_Test`
-- Make sure `nodejs` plugin is installed
-- To activate `nodejs` plugin, go to `Manage Jenkins` > `System Configuration` > `Global Tool Configuration` > `NodeJS` > `Add NodeJS` > Give it a name e.g. `Node` > Save and Apply
-- Execute shell
+## Part III Setting up CI build on Jenkins 
+1. Create a freestyle job on Jenkins and call it `Docker_Pipeline_Integration_Test` with the following configurations:
+    - `General` -> `Discard Old Builds` -> `Max # of builds to keep` -> 3
+    - `Github Project URL` -> Insert URL for Github Repository
+    - `Source Code Management` -> `Git` ->  Insert `Repository URL` and `Credentials` (To learn how to add credentials click [here](https://sharadchhetri.com/how-to-setup-jenkins-credentials-for-git-repo-access/)) -> `Branches to build` -> `Branch Specifier` -> `*/dev*`
+    - `Build Triggers` -> `GitHub hook trigger`
+    -
+    -
+    -
+    -
+
+**Note**: Webhooks only work with public IP. You will need to forward your local port [http://localhost:8080/](http://localhost:8080/) to the Internet/public using an SSH server like [Serveo](https://medium.com/automationmaster/how-to-forward-my-local-port-to-public-using-serveo-4979f352a3bf), Ngrok or [SocketXP](https://www.socketxp.com/download). 
+
+> To set up Github Webhooks, Jenkins, and Ngrok for Local Development click [here](https://medium.com/@developerwakeling/setting-up-github-webhooks-jenkins-and-ngrok-for-local-development-f4b2c1ab5b6)
+
+2. On Github, navigate to your repository -> Go to `settings` -> `Webhooks` -> in Payload URL, enter Jenkins URL e.g:
+```bash
+http://naistangz-1234.socketxp.com/github-webhook/
+```
+-> Enable `SSL verification` -> `Update webhook` -> `Redeliver`
+
+**Commands to forward local port to public IP with** `SocketXP`:
+```bash
+sudo su
+sudo curl -O https://portal.socketxp.com/download/darwin/socketxp && chmod 777 socketxp && sudo mv socketxp /usr/local/bin
+socketxp login "authentication_token_goes_here"
+socketxp connect http://localhost:8080
+Connected.
+Public URL -> https://naistangz-z012h3op.socketxp.com
+```
+
+3. Go back to Jenkins and make sure `nodejs` plugin is installed
+4. To activate `nodejs` plugin, go to `Manage Jenkins` > `System Configuration` > `Global Tool Configuration` > `NodeJS` > `Add NodeJS` > Give it a name e.g. `Node` > Save and Apply
+5. Execute shell
 ```bash
 cd app
 npm install 
 npm test
 ```
-- Click Apply 
+6. Click Apply and make changes on your IDE on a new branch and push to Github -> Jenkins will listen to incoming `POST` requests to the Payload URL used on Github and automatically merge changes from the new branch to the master branch if the tests pass. 
 
 ---
 
 ## Setting up CD build on Jenkins with Dockerfile 
-- First go to [Dockerhub](https://hub.docker.com/r/naistangz), create an account if this has not been created yet, then set up a DockerHub repository and call it `<username>/<name_of_repository>` e.g `naistangz/Docker_automation`
+- First go to [Dockerhub](https://hub.docker.com/r/naistangz), create an account if this has not been created yet, then set up a DockerHub repository and call it `<username>/<name_of_repository>` e.g `naistangz/docker_automation`
 - Create a pipeline script on Jenkins
 ```json
 pipeline {

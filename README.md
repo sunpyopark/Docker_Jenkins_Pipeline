@@ -164,7 +164,7 @@ npm test
 ---
 
 ## Part IV: Setting up CD build on Jenkins with Dockerfile 
-Once our CI build is successful, create another build on Jenkins which will listen to the CI build which we named `Docker_Pipeline_Integration_Test` and automatically build a Docker image if it successfully passed the tests and merged the code to the master branch. 
+Once our CI build is successful, create another build on Jenkins which will listen to the CI build which we named `Docker_Pipeline_Integration_Test` and automatically build a Docker image if it successfully passed the tests and merges the code to the master branch. 
 1. Make sure `docker pipeline plugin` is installed
 2. Create a [Dockerhub](https://hub.docker.com/) account
 3. Once logged in, click on `Create` -> `Create Repository` -> Type in a name for your Docker repository e.g `naistangz/docker_automation`
@@ -179,7 +179,7 @@ Once our CI build is successful, create another build on Jenkins which will list
 
 6. Go back to Jenkins home page and click `New Item`, select `Pipeline` and name it `docker-deployment-test-v1` and provide it with the following configurations:
 **General** -> Github project -> Insert Project URL
-**Build Triggers** -> Select `Build after other projects are built` -> Projects to Watch: `Docker_Pipeline_Integration_Test` -> Trigger only if build is stable
+**Build Triggers** -> Select `Build after other projects are built` -> Projects to Watch (select the CI build created in [Part III](#part-iii-setting-up-ci-build-on-jenkins)): `Docker_Pipeline_Integration_Test` -> Trigger only if build is stable
 **Pipeline** -> Add the following script (scripts are based on the Groovy programming language):
 ```bash
 pipeline {
@@ -285,3 +285,4 @@ stage('Deploy Image') {
 ---
 
 7. Click on `Save` and `Apply`
+8. To test if the build was successful 

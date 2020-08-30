@@ -11,9 +11,7 @@
 1. [Part I: Installing Java8 and Jenkins](#part-i-installing-java8-and-jenkins)
 2. [Part II: Configuring Jenkins and managing Docker plugins](#part-iii-configuring-jenkins)
 3. [Part III: Setting a CI job](#setting-up-ci-build-on-jenkins)
-
-
-
+4. [Part IV: Setting up a CD job and automatically creating a Docker image](#part-iv-setting-up-cd-build-on-jenkins-with-dockerfile)
 
 ---
 ## Part I Installing Java8 and Jenkins
@@ -125,11 +123,11 @@ Yet Another Docker Plugin
     - `General` -> `Discard Old Builds` -> `Max # of builds to keep` -> 3
     - `Github Project URL` -> Insert URL for Github Repository
     - `Source Code Management` -> `Git` ->  Insert `Repository URL` and `Credentials` (To learn how to add credentials click [here](https://sharadchhetri.com/how-to-setup-jenkins-credentials-for-git-repo-access/)) -> `Branches to build` -> `Branch Specifier` -> `*/dev*`
-    - `Build Triggers` -> `GitHub hook trigger`
-    -
-    -
-    -
-    -
+    - `Build Triggers` -> `GitHub hook trigger for GITScm polling`
+    - `Build Environment` -> `Add Timestamps` -> `Provide Node & npm bin/folder to PATH` -> Choose default NodeJs Installation (go to step 3 if NodeJS plugin requires activation) -> npmrc file ` - use system default - ` - Cache location `Default`
+    - `Build` -> `Execute Shell` -> Go to Step 5 
+    - `Post-build Actions` -> `Push Only if Build Succeeds` -> `Merge Results` -> `Branches` -> Branch to push: `master` -> Target remote name: `origin`
+    -  Click `Apply` and `Save`
 
 **Note**: Webhooks only work with public IP. You will need to forward your local port [http://localhost:8080/](http://localhost:8080/) to the Internet/public using an SSH server like [Serveo](https://medium.com/automationmaster/how-to-forward-my-local-port-to-public-using-serveo-4979f352a3bf), Ngrok or [SocketXP](https://www.socketxp.com/download). 
 
@@ -141,6 +139,7 @@ http://naistangz-1234.socketxp.com/github-webhook/
 ```
 -> Enable `SSL verification` -> `Update webhook` -> `Redeliver`
 
+---
 **Commands to forward local port to public IP with** `SocketXP`:
 ```bash
 sudo su
@@ -150,7 +149,7 @@ socketxp connect http://localhost:8080
 Connected.
 Public URL -> https://naistangz-z012h3op.socketxp.com
 ```
-
+---
 3. Go back to Jenkins and make sure `nodejs` plugin is installed
 4. To activate `nodejs` plugin, go to `Manage Jenkins` > `System Configuration` > `Global Tool Configuration` > `NodeJS` > `Add NodeJS` > Give it a name e.g. `Node` > Save and Apply
 5. Execute shell
@@ -159,11 +158,12 @@ cd app
 npm install 
 npm test
 ```
-6. Click Apply and make changes on your IDE on a new branch and push to Github -> Jenkins will listen to incoming `POST` requests to the Payload URL used on Github and automatically merge changes from the new branch to the master branch if the tests pass. 
+6. Once saved, make changes on your IDE on a new branch and push to Github -> Jenkins will listen to incoming `POST` requests to the Payload URL used on Github and automatically merge changes from the new branch to the master branch if the tests pass. 
+7. Go to console output to check if the build was successful (indicated by the blue circle :large_blue_circle:)
 
 ---
 
-## Setting up CD build on Jenkins with Dockerfile 
+## Part IV: Setting up CD build on Jenkins with Dockerfile 
 - First go to [Dockerhub](https://hub.docker.com/r/naistangz), create an account if this has not been created yet, then set up a DockerHub repository and call it `<username>/<name_of_repository>` e.g `naistangz/docker_automation`
 - Create a pipeline script on Jenkins
 ```json

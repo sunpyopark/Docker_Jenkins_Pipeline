@@ -19,8 +19,8 @@
 > Full installation instructions [here](https://www.macminivault.com/installing-jenkins-on-macos/)
 
 1. Install Jenkins on MacOS using Homebrew package manager :beers: 
-> If homebrew already installed (run in Termainl `brew -v` to check), skip to the next step 
-```bash
+> If homebrew already installed (run in Terminal `brew -v` to check), skip to the next step 
+```ba
 /usr/bin/ruby -e /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 

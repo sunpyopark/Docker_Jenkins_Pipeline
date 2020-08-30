@@ -121,13 +121,13 @@ Yet Another Docker Plugin
 
 ## Part III: Setting up CI build on Jenkins 
 1. Create a freestyle job on Jenkins and call it `Docker_Pipeline_Integration_Test` with the following configurations:
-    - `General` -> `Discard Old Builds` -> `Max # of builds to keep` -> 3
-    - `Github Project URL` -> Insert URL for Github Repository
-    - `Source Code Management` -> `Git` ->  Insert `Repository URL` and `Credentials` (To learn how to add credentials click [here](https://sharadchhetri.com/how-to-setup-jenkins-credentials-for-git-repo-access/)) -> `Branches to build` -> `Branch Specifier` -> `*/dev*`
-    - `Build Triggers` -> `GitHub hook trigger for GITScm polling`
-    - `Build Environment` -> `Add Timestamps` -> `Provide Node & npm bin/folder to PATH` -> Choose default NodeJs Installation (go to step 3 if NodeJS plugin requires activation) -> npmrc file ` - use system default - ` - Cache location `Default`
-    - `Build` -> `Execute Shell` -> Go to Step 5 
-    - `Post-build Actions` -> `Push Only if Build Succeeds` -> `Merge Results` -> `Branches` -> Branch to push: `master` -> Target remote name: `origin`
+    - **General** -> `Discard Old Builds` -> `Max # of builds to keep` -> 3
+    - **Github Project URL** -> Insert URL for Github Repository
+    - **Source Code Management** -> `Git` ->  Insert `Repository URL` and `Credentials` (To learn how to add credentials click [here](https://sharadchhetri.com/how-to-setup-jenkins-credentials-for-git-repo-access/)) -> `Branches to build` -> `Branch Specifier` -> `*/dev*`
+    - **Build Triggers** -> `GitHub hook trigger for GITScm polling`
+    - **Build Environment** -> `Add Timestamps` -> `Provide Node & npm bin/folder to PATH` -> Choose default NodeJs Installation (go to step 3 if NodeJS plugin requires activation) -> npmrc file ` - use system default - ` - Cache location `Default`
+    - **Build** -> `Execute Shell` -> Go to Step 5 
+    - **Post-build Actions** -> `Push Only if Build Succeeds` -> `Merge Results` -> `Branches` -> Branch to push: `master` -> Target remote name: `origin`
     -  Click `Apply` and `Save`
 
 > **Note**: Webhooks only work with a public IP. You will need to forward your local port [http://localhost:8080/](http://localhost:8080/) to the Internet/public using an SSH server like [Serveo](https://medium.com/automationmaster/how-to-forward-my-local-port-to-public-using-serveo-4979f352a3bf), Ngrok or [SocketXP](https://www.socketxp.com/download). 

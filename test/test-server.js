@@ -15,26 +15,26 @@ describe('Homepage', function() {
         done();
       });
   });
-  it('should contain the word Sparta at / GET', function(done) {
+  it('should contain the word Docker at / GET', function(done) {
     chai.request(server)
       .get('/')
       .end(function(err, res){
-        res.text.should.contain('Sparta')
+        res.text.should.contain('Docker')
         done();
       });
   });
 });
 
-describe('Blog', function() {
-  it('should display the list of posts at /posts GET', function(done) {
-    chai.request(server)
-      .get('/posts')
-      .end(function(err, res){
-        res.should.have.status(200);
-        done();
-      });
-  });
-});
+//describe('Blog', function() {
+//  it('should display the list of posts at /posts GET', function(done) {
+//    chai.request(server)
+//      .get('/posts')
+//      .end(function(err, res){
+//        res.should.have.status(200);
+//        done();
+//      });
+//  });
+//});
 
 describe('Fibonacci', function() {
   it('should display the correct fibonacci value at /fibonacci/10 GET', function(done) {

@@ -1,5 +1,5 @@
 # Selecting the base image to build our own customised node.js application microservice
-FROM node AS app
+FROM node:latest
 
 # Working directory inside the container
 WORKDIR /usr/src/app

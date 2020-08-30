@@ -11,8 +11,6 @@
 1. [Part I: Installing Java8 and Jenkins](#part-i-installing-java8-and-jenkins)
 2. [Part II: Configuring Jenkins and managing Docker plugins](#part-iii-configuring-jenkins)
 3. [Part III: Setting a CI job](#setting-up-ci-build-on-jenkins)
-
-Jenkins slave node 
 4. [Part IV: Setting up a CD job and automatically creating a Docker image](#part-iv-setting-up-cd-build-on-jenkins-with-dockerfile)
 ---
 ## Part I: Installing Java8 and Jenkins
@@ -113,7 +111,6 @@ NodeJS Plugin
 Oracle Java SE Development Kit Installer Plugin
 Pipeline Plugin
 Timestamper
-SSH agent
 ```
 
 **Tip:** Install `Blue Ocean` plugin for better UI 
@@ -160,9 +157,6 @@ npm test
 ```
 6. Once saved, make changes on your IDE on a new branch and push to Github -> Jenkins will listen to incoming `POST` requests to the Payload URL used on Github and automatically merge changes from the new branch to the master branch if the tests pass. 
 7. Go to console output to check if the build was successful (indicated by the blue circle :large_blue_circle:)
-
----
-setting up slave node 
 
 ---
 ## Part IV: Setting up CD build on Jenkins with Dockerfile 
@@ -296,4 +290,8 @@ stage('Remove Unused docker image') {
 ---
 
 7. Click on `Save` and `Apply`
-8. To test if the build was successful, make a change on the development branch 
+8. To test if the build was successful, make a change on the development branch
+---
+
+Current error:
+![ine 1: docker: command not found](images/docker-not-found-error.png)

@@ -270,7 +270,7 @@ stage('Building image') {
       }
     }
 ```
-Finally, once the Docker image has been created, it will be pushed to Dockerhub
+Once the Docker image has been created, it will be pushed to Dockerhub
 ```bash
 stage('Deploy Image') {
       steps{
@@ -282,6 +282,15 @@ stage('Deploy Image') {
       }
     }
 ```
+Finally, we will remove the previously built image on the local server
+```bash
+stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $registry:$BUILD_NUMBER"
+      }
+    }
+```
+
 ---
 
 7. Click on `Save` and `Apply`

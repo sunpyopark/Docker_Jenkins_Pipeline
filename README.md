@@ -220,7 +220,7 @@ pipeline {
 }
 ```
 ---
-**Pipeline explanation**:
+**Pipeline explanation**:\
 In this pipeline, we have 2 environment variables to change the registry and credentials:
 ```bash
 environment {

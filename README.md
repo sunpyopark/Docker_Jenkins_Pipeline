@@ -295,3 +295,5 @@ stage('Remove Unused docker image') {
 
 Current error :upside_down_face:
 ![ine 1: docker: command not found](images/docker-not-found-error.png)
+
+Manage Jenkins -> Global Tool Configuration -> Docker -> Add Docker Installations -> Name: `Docker` -> Docker version `17.09.1-ce`

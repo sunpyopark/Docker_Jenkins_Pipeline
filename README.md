@@ -14,7 +14,7 @@
 4. [Part IV: Setting up a CD job and automatically creating a Docker image](#part-iv-setting-up-cd-build-on-jenkins-with-dockerfile)
 
 ---
-## Part I Installing Java8 and Jenkins
+## Part I: Installing Java8 and Jenkins
 
 > Full installation instructions [here](https://www.macminivault.com/installing-jenkins-on-macos/)
 
@@ -98,7 +98,7 @@ brew services list
 ```
 
 ---
-## Part II Configuring Jenkins
+## Part II: Configuring Jenkins
 1. Navigate to Manage Jenkins > Manage Plugins > Available > Install **all** Docker plugins, `docker-build-step`, `Docker Compose Build Step`, `Docker build plugins` and `Github`
 
 **List of plugins used:**
@@ -118,7 +118,7 @@ Yet Another Docker Plugin
 **Tip:** Install `Blue Ocean` plugin for better UI 
 ---
 
-## Part III Setting up CI build on Jenkins 
+## Part III: Setting up CI build on Jenkins 
 1. Create a freestyle job on Jenkins and call it `Docker_Pipeline_Integration_Test` with the following configurations:
     - `General` -> `Discard Old Builds` -> `Max # of builds to keep` -> 3
     - `Github Project URL` -> Insert URL for Github Repository
@@ -129,11 +129,11 @@ Yet Another Docker Plugin
     - `Post-build Actions` -> `Push Only if Build Succeeds` -> `Merge Results` -> `Branches` -> Branch to push: `master` -> Target remote name: `origin`
     -  Click `Apply` and `Save`
 
-**Note**: Webhooks only work with public IP. You will need to forward your local port [http://localhost:8080/](http://localhost:8080/) to the Internet/public using an SSH server like [Serveo](https://medium.com/automationmaster/how-to-forward-my-local-port-to-public-using-serveo-4979f352a3bf), Ngrok or [SocketXP](https://www.socketxp.com/download). 
-
+> **Note**: Webhooks only work with a public IP. You will need to forward your local port [http://localhost:8080/](http://localhost:8080/) to the Internet/public using an SSH server like [Serveo](https://medium.com/automationmaster/how-to-forward-my-local-port-to-public-using-serveo-4979f352a3bf), Ngrok or [SocketXP](https://www.socketxp.com/download). 
+---
 > To set up Github Webhooks, Jenkins, and Ngrok for Local Development click [here](https://medium.com/@developerwakeling/setting-up-github-webhooks-jenkins-and-ngrok-for-local-development-f4b2c1ab5b6)
-
-2. On Github, navigate to your repository -> Go to `settings` -> `Webhooks` -> in Payload URL, enter Jenkins URL e.g:
+---
+2. On Github, navigate to your [repository](https://github.com/naistangz/Docker_Jenkins_Pipeline/tree/development) -> Go to `Settings` -> `Webhooks` -> in Payload URL, enter Jenkins URL e.g:
 ```bash
 http://naistangz-1234.socketxp.com/github-webhook/
 ```

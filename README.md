@@ -3,9 +3,8 @@
 ## TL;DR
 **WHAT**: Use Docker Plugins to connect Jenkins to Docker and automate entire containerisation process 
 
-**HOW**: Install Jenkins, create a Docker host with AWS EC2 Instances, set up Docker Remote API , create Docker agent cloud, slave build agent images, installing and configuring Docker plugins
+**HOW**: Install Jenkins, installing and configuring Docker plugins, create CI and CD Jenkins builds, create Docker repository
 
-> [What is Docker Slave?](dockerslave.md)
 ---
 
 **Contents**

@@ -116,6 +116,7 @@ Yet Another Docker Plugin
 ```
 
 **Tip:** Install `Blue Ocean` plugin for better UI 
+
 ---
 
 ## Part III: Setting up CI build on Jenkins 

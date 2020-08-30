@@ -154,7 +154,6 @@ http://naistangz-z012h3op.socketxp.com/github-webhook/
 4. To activate `nodejs` plugin, go to `Manage Jenkins` > `System Configuration` > `Global Tool Configuration` > `NodeJS` > `Add NodeJS` > Give it a name e.g. `Node` > Save and Apply
 5. Execute shell
 ```bash
-cd app
 npm install 
 npm test
 ```

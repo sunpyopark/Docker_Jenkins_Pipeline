@@ -105,6 +105,8 @@ brew services list
 Blue Ocean
 Credentials Plugin
 Docker Plugin
+CloudBees Docker Hub/Registry Notification
+CloudBees Docker Build and Publish
 Email Extension
 Github Plugin
 NodeJS Plugin
@@ -278,7 +280,7 @@ stage('Deploy Image') {
       }
     }
 ```
-Finally, we will remove the previously built image on the local server
+Finally, we will remove the previously built image on the local server so that we do not accumulate all the images in our Docker localhost 
 ```bash
 stage('Remove Unused docker image') {
       steps{
@@ -293,7 +295,60 @@ stage('Remove Unused docker image') {
 8. To test if the build was successful, make a change on the development branch
 ---
 
-Current error :upside_down_face:
+## Troubleshooting
+**1. Docker: Command Not found**  
 ![ine 1: docker: command not found](images/docker-not-found-error.png)
+> - Fixed by explicitly adding the file path of Docker as Jenkins pipeline will not automatically determine `Docker` file:
+```bash
+pipeline {
 
-Manage Jenkins -> Global Tool Configuration -> Docker -> Add Docker Installations -> Name: `Docker` -> Docker version `17.09.1-ce`
+    environment {
+        PATH = "$PATH:<folder_where_docker_is>"
+    }
+}
+```
+For example if `docker` is located in:
+```bash
+$ which docker
+$ /usr/local/bin/docker
+```
+Jenkins `Pipeline` script should be modified to:
+```bash
+pipeline {
+
+    environment {
+        PATH = "$PATH:/usr/local/bin"
+    }
+}
+```
+**OR**
+Set installation root by navigating to `Jenkins Homepage` -> `Global Tool Configuration` -> `Docker` -> Name: `docker` -> Installation root:`/usr/local/bin/`
+![set-installation-root-docker](images/setting-docker-path.png)
+---
+**2. Java.io.IOException:error=2, No such file or directory**
+```bash
+java.io.IOException: error=2, No such file or directory
+	at java.base/java.lang.ProcessImpl.forkAndExec(Native Method)
+	at java.base/java.lang.ProcessImpl.<init>(ProcessImpl.java:340)
+	at java.base/java.lang.ProcessImpl.start(ProcessImpl.java:271)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1107)
+Caused: java.io.IOException: Cannot run program "docker": error=2, No such file or directory
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1128)
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1071)
+	at hudson.Proc$LocalProc.<init>(Proc.java:252)
+	at hudson.Proc$LocalProc.<init>(Proc.java:221)
+	at hudson.Launcher$LocalLauncher.launch(Launcher.java:936)
+	at hudson.Launcher$ProcStarter.start(Launcher.java:454)
+	at hudson.Launcher$ProcStarter.join(Launcher.java:465)
+	at org.jenkinsci.plugins.docker.commons.impl.RegistryKeyMaterialFactory.materialize(RegistryKeyMaterialFactory.java:101)
+	at org.jenkinsci.plugins.docker.workflow.AbstractEndpointStepExecution2.doStart(AbstractEndpointStepExecution2.java:53)
+	at org.jenkinsci.plugins.workflow.steps.GeneralNonBlockingStepExecution.lambda$run$0(GeneralNonBlockingStepExecution.java:77)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Finished: FAILURE
+```
+
+![deploying-unsuccessful-java.io.IOException-error](images/build-43-deploying-docker-fail.png)

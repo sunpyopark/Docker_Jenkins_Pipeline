@@ -3,9 +3,11 @@ pipeline {
     registry = "naistangz/docker_automation"
     registryCredential = "dockerhub"
     dockerImage = ''
+    PATH = "$PATH:/usr/local/bin"
 }
 
-    agent any
+    agent {
+        'docker'}
     stages {
             stage('Cloning our Git') {
                 steps {

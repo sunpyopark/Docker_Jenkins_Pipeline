@@ -12,6 +12,7 @@
 2. [Part II: Configuring Jenkins and managing Docker plugins](#part-iii-configuring-jenkins)
 3. [Part III: Setting a CI job](#setting-up-ci-build-on-jenkins)
 4. [Part IV: Setting up a CD job and automatically creating a Docker image](#part-iv-setting-up-cd-build-on-jenkins-with-dockerfile)
+
 ---
 ## Part I: Installing Java8 :coffee: and Jenkins :woman_cook:
 
@@ -322,8 +323,10 @@ pipeline {
 }
 ```
 **OR**
+
 Set installation root by navigating to `Jenkins Homepage` -> `Global Tool Configuration` -> `Docker` -> Name: `docker` -> Installation root:`/usr/local/bin/`
 ![set-installation-root-docker](images/setting-docker-path.png)
+
 ---
 **2. Java.io.IOException:error=2, No such file or directory**
 ```bash

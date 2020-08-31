@@ -448,5 +448,9 @@ The image should automatically appear on Dockerhub
 3. Make a change on the embedded javascript (ejs) template
 4. git add .
 5. git commit -m 'automation testing'
-5. git push
+6. git push
+7. docker run -d -p 3000:3000 naistangz/docker_automation:latest
 ```
+
+Enter link into the browser on port `3000`:
+[http://localhost:3000/](http://localhost:3000/)

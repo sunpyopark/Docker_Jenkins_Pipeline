@@ -12,7 +12,8 @@
 2. [Part II: Configuring Jenkins and managing Docker plugins](#part-iii-configuring-jenkins)
 3. [Part III: Setting a CI job](#setting-up-ci-build-on-jenkins)
 4. [Part IV: Setting up a CD job and automatically creating a Docker image](#part-iv-setting-up-cd-build-on-jenkins-with-dockerfile)
-
+5. [Part V: Troubleshooting](#part-v-troubleshooting)
+6. [Part VI: Testing Full Automation](#part-vi-testing-full-automation)
 ---
 ## Part I: Installing Java8 :coffee: and Jenkins :woman_cook:
 
@@ -296,7 +297,7 @@ stage('Remove Unused docker image') {
 8. To test if the build was successful, make a change on the development branch
 ---
 
-## Troubleshooting
+## Part V: Troubleshooting
 **1. Docker: Command Not found**  
 ![ine 1: docker: command not found](images/docker-not-found-error.png)
 > - Fixed by explicitly adding the file path of Docker as Jenkins pipeline will not automatically determine `Docker` file:
@@ -413,12 +414,7 @@ Typing in `curl https://registry-1.docker.io/v2/` in terminal returns:
 {"errors":[{"code":"UNAUTHORIZED","message":"authentication required","detail":null}]}
 ```
 
-
-
-Need to log in via docker cli not just docker gui 
-
-
-edited `/Users/anaistang/.docker/config.json` file 
+Edit `/Users/anaistang/.docker/config.json` file 
 ```bash
 {
         "auths": {},
@@ -430,13 +426,27 @@ edited `/Users/anaistang/.docker/config.json` file
         "stackOrchestrator": "swarm"
 }
 This way docker will store credentials in `config.json`
-
-
-
 ```
 
-Success!
-![docker-pipeline-success](images/docker-pipeline-success.png)
+Success! Open stage view in `Blue Ocean`
+![docker-pipeline-success-blue-ocean](images/docker-pipeline-success.png)
+
+**OR** Click on `stage views` to visualise the Pipeline and logs
+
+![docker-pipeline-stage-views](images/stage-view-jenkins.png)
+
 
 The image should automatically appear on Dockerhub
 ![dockerhub-automation](images/dockerhub-automation.png)
+
+---
+
+## Part VI: Testing full automation
+```bash
+1. git checkout development 
+2. nano views/index.ejs
+3. Make a change on the embedded javascript (ejs) template
+4. git add .
+5. git commit -m 'automation testing'
+5. git push
+```

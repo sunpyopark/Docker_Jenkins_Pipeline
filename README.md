@@ -353,5 +353,90 @@ Caused: java.io.IOException: Cannot run program "docker": error=2, No such file 
 	at java.base/java.lang.Thread.run(Thread.java:834)
 Finished: FAILURE
 ```
+> - [Fixed](https://stackoverflow.com/questions/50333325/jenkins-cannot-run-program-docker-error-2-no-such-file-or-directory) by making sure Docker is available to the PATH variable Jenkins is using.
+> - Since I am using Jenkins on my local host machine and I installed it through Homebrew I navigated and edited the following file in my terminal:
+```bash
+/usr/local/opt/jenkins-lts/homebrew.mxcl.jenkins-lts.plist
+```
+and made the following changes:
+```bash
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>homebrew.mxcl.jenkins-lts</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/usr/libexec/java_home</string>
+      <string>-v</string>
+      <string>1.8</string>
+      <string>--exec</string>
+      <string>java</string>
+      <string>-Dmail.smtp.starttls.enable=true</string>
+      <string>-jar</string>
+      <string>/usr/local/opt/jenkins-lts/libexec/jenkins.war</string>
+      <string>--httpListenAddress=127.0.0.1</string>
+      <string>--httpPort=8080</string>
+    </array>
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>PATH</key>
+      <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+    <key>RunAtLoad</key>
+    <true/>
+  </dict>
+</plist>
+```
+The important part being:
+```bash
+<key>EnvironmentVariables</key>
+    <dict>
+      <key>PATH</key>
+      <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+```
 
 ![deploying-unsuccessful-java.io.IOException-error](images/build-43-deploying-docker-fail.png)
+
+---
+
+3. :warning: Unable to docker login through CLI (Command Line Interface)
+```bash
+Using the existing docker config file.Removing blacklisted property: authsRemoving blacklisted property: credsStore$ docker login -u naistangz -p ******** https://registry-1.docker.io/v2/
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+Error response from daemon: Get https://registry-1.docker.io/v2/: unauthorized: incorrect username or password
+```
+Typing in `curl https://registry-1.docker.io/v2/` in terminal returns:
+```bash
+{"errors":[{"code":"UNAUTHORIZED","message":"authentication required","detail":null}]}
+```
+
+
+
+Need to log in via docker cli not just docker gui 
+
+
+edited `/Users/anaistang/.docker/config.json` file 
+```bash
+{
+        "auths": {},
+        "HttpHeaders": {
+                "User-Agent": "Docker-Client/19.03.8 (darwin)"
+        },
+        "credsStore": "",
+        "experimental": "enabled",
+        "stackOrchestrator": "swarm"
+}
+This way docker will store credentials in `config.json`
+
+
+
+```
+
+Success!
+![docker-pipeline-success](images/docker-pipeline-success.png)
+
+The image should automatically appear on Dockerhub
+![dockerhub-automation](images/dockerhub-automation.png)

@@ -402,7 +402,7 @@ The important part being:
 
 ---
 
-3. :warning: Unable to docker login through CLI (Command Line Interface)
+**3. :warning: Unable to docker login through CLI (Command Line Interface)**
 ```bash
 Using the existing docker config file.Removing blacklisted property: authsRemoving blacklisted property: credsStore$ docker login -u naistangz -p ******** https://registry-1.docker.io/v2/
 WARNING! Using --password via the CLI is insecure. Use --password-stdin.

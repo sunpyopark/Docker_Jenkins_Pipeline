@@ -1,42 +1,37 @@
-pipeline {
+node {
+    
     environment {
-    registry = "krandmm/docker_automation"
-    registryCredential = "dockerhub"
-    dockerImage = ''
-    PATH = "$PATH:/usr/local/bin"
-}
+        SLACK_CHANNEL = '#jenkins-ci'
+    }	
 
-    agent {
-        'docker'}
-    stages {
-            stage('Cloning our Git') {
-                steps {
-                git 'https://github.com/sunpyopark/Docker_Jenkins_Pipeline.git'
-                }
-            }
+    env.AWS_ECR_LOGIN=true
+    def newApp
+    def registry = 'krandmm/nodejs-app'
+    def version = ':v0.1.'
+    def registryCredential = 'docker-hub'
+	
+	stage('Git') {
+		git 'https://github.com/sunpyopark/Docker_Jenkins_Pipeline/'
+	}
 
-            stage('Building Docker Image') {
-                steps {
-                    script {
-                        dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                    }
-                }
-            }
-
-            stage('Deploying Docker Image to Dockerhub') {
-                steps {
-                    script {
-                        docker.withRegistry('', registryCredential) {
-                        dockerImage.push()
-                        }
-                    }
-                }
-            }
-
-            stage('Cleaning Up') {
-                steps{
-                  sh "docker rmi $registry:$BUILD_NUMBER"
-                }
-            }
+	stage('Building image') {
+        docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+		    def buildName = registry + version + "$BUILD_NUMBER"
+			newApp = docker.build buildName
+			newApp.push()
         }
-    }
+	}
+	
+	stage('Registring image') {
+        docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+    		newApp.push 'latest'
+        }
+	}
+        stage('Removing image') {
+            sh "docker rmi $registry:$BUILD_NUMBER --force"
+            sh "docker rmi $registry:latest --force"
+        }
+	stage("Slack speak") {
+        slackSend color: '#BADA55', message: 'Hello, World!'
+        }
+}

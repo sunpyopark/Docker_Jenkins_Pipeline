@@ -11,7 +11,7 @@ node {
     def registryCredential = 'docker-hub'
 	
 	stage('Git') {
-		git 'https://github.com/sunpyopark/node-hello/'
+		git 'https://github.com/sunpyopark/nodejs-coreapp/'
 	}
 
 	stage('Building image') {

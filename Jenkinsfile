@@ -11,7 +11,7 @@ node {
     def registryCredential = 'docker-hub'
 	
 	stage('Git') {
-		git 'https://github.com/sunpyopark/Docker_Jenkins_Pipeline/'
+		git 'https://github.com/sunpyopark/node-hello/'
 	}
 
 	stage('Building image') {

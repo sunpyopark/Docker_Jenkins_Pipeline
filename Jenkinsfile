@@ -1,6 +1,6 @@
 pipeline {
     environment {
-    registry = "naistangz/docker_automation"
+    registry = "krandmm/docker_automation"
     registryCredential = "dockerhub"
     dockerImage = ''
     PATH = "$PATH:/usr/local/bin"
@@ -11,7 +11,7 @@ pipeline {
     stages {
             stage('Cloning our Git') {
                 steps {
-                git 'https://github.com/naistangz/Docker_Jenkins_Pipeline.git'
+                git 'https://github.com/sunpyopark/Docker_Jenkins_Pipeline.git'
                 }
             }
 
